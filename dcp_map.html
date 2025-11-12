@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_09fb796540dd4bb93116c1e01dc8a829 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_09fb796540dd4bb93116c1e01dc8a829" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_09fb796540dd4bb93116c1e01dc8a829 = L.map(
+                "map_09fb796540dd4bb93116c1e01dc8a829",
+                {
+                    center: [51.5136866, -0.1323996],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 17,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_9abb95d0fbf7d6095b12f00db4b2f1fd = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_9abb95d0fbf7d6095b12f00db4b2f1fd.addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            var circle_a102a61db098e6642f86eeb74aad4047 = L.circle(
+                [51.514469, -0.133783],
+                {"bubblingMouseEvents": true, "color": "#e63946", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e63946", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_a102a61db098e6642f86eeb74aad4047.bindTooltip(
+                `<div>
+                     Bonus point for picture evidence of ordering a beverage through a hole…
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_f4f2e3f8ba0253c67aeaff1a92058e5f = L.circle(
+                [51.513497, -0.134019],
+                {"bubblingMouseEvents": true, "color": "#e63946", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e63946", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_f4f2e3f8ba0253c67aeaff1a92058e5f.bindTooltip(
+                `<div>
+                     What Genius vendor can you find here?
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_532eaa4d8375a71d3ad536e464f2c2dc = L.circle(
+                [51.513406, -0.133969],
+                {"bubblingMouseEvents": true, "color": "#e63946", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e63946", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_532eaa4d8375a71d3ad536e464f2c2dc.bindTooltip(
+                `<div>
+                     What musician can you find here with a dark side?
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_6bad4d2608cac2146347f0feca2468fa = L.circle(
+                [51.512917, -0.133592],
+                {"bubblingMouseEvents": true, "color": "#e63946", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e63946", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 30.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_6bad4d2608cac2146347f0feca2468fa.bindTooltip(
+                `<div>
+                     What colour is the invader from space?
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_bd4ee224fa3a8155f11438087a2e607f = L.circle(
+                [51.513675, -0.132478],
+                {"bubblingMouseEvents": true, "color": "#fb8500", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fb8500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_bd4ee224fa3a8155f11438087a2e607f.bindTooltip(
+                `<div>
+                     What year was the tallest bottle?
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_65394690431676134427ad6ac31a5165 = L.circle(
+                [51.513872, -0.132622],
+                {"bubblingMouseEvents": true, "color": "#fb8500", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fb8500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_65394690431676134427ad6ac31a5165.bindTooltip(
+                `<div>
+                     How many cherubs live in this home for a Monarch?
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_a97e7b2bcfb1f4ab80bcf573c598e943 = L.circle(
+                [51.514275, -0.132964],
+                {"bubblingMouseEvents": true, "color": "#fb8500", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fb8500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_a97e7b2bcfb1f4ab80bcf573c598e943.bindTooltip(
+                `<div>
+                     What is the Eurythmics night time snack of choice? 
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_64552a5d193c1b3ed8d9ef1c05e783ad = L.circle(
+                [51.514872, -0.132375],
+                {"bubblingMouseEvents": true, "color": "#fb8500", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fb8500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 50.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_64552a5d193c1b3ed8d9ef1c05e783ad.bindTooltip(
+                `<div>
+                     Bonus point for the most yellow pigeons photographed
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_fae5c5f9a31f4f42bca98eebac9f50fc = L.circle(
+                [51.515667, -0.130881],
+                {"bubblingMouseEvents": true, "color": "#8338ec", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8338ec", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_fae5c5f9a31f4f42bca98eebac9f50fc.bindTooltip(
+                `<div>
+                     Name the Sculptor using Stoneware, Porcelain and Minerals
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_279d305756753eb523228da8a38b198e = L.circle(
+                [51.512744, -0.131711],
+                {"bubblingMouseEvents": true, "color": "#8338ec", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8338ec", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_279d305756753eb523228da8a38b198e.bindTooltip(
+                `<div>
+                     Which Father of computing is in the Maison?
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_a400598cf42f01b5139d987c49d21caf = L.circle(
+                [51.51185, -0.130886],
+                {"bubblingMouseEvents": true, "color": "#8338ec", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8338ec", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_a400598cf42f01b5139d987c49d21caf.bindTooltip(
+                `<div>
+                     What is the Bookmaker ID with 4 Chinese characters?
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_9469203fa264f4253575f46da2fb9f17 = L.circle(
+                [51.512614, -0.131756],
+                {"bubblingMouseEvents": true, "color": "#06d6a0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#06d6a0", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 30.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_9469203fa264f4253575f46da2fb9f17.bindTooltip(
+                `<div>
+                     Which philosopher rose from the ashes here?
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_4f50d3cb2d13a8275c9771c0cdc69d08 = L.circle(
+                [51.513094, -0.131158],
+                {"bubblingMouseEvents": true, "color": "#06d6a0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#06d6a0", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 30.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_4f50d3cb2d13a8275c9771c0cdc69d08.bindTooltip(
+                `<div>
+                     How many golden balls does the Antique Dealer have?
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_e72f460b22cf5e2f563ef385edebbb38 = L.circle(
+                [51.513644, -0.131522],
+                {"bubblingMouseEvents": true, "color": "#06d6a0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#06d6a0", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_e72f460b22cf5e2f563ef385edebbb38.bindTooltip(
+                `<div>
+                     Which member of the Fellowship enjoys a custard tart?
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_2a742c6a39bbea16d4808ea6c2c57de1 = L.circle(
+                [51.514703, -0.132278],
+                {"bubblingMouseEvents": true, "color": "#06d6a0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#06d6a0", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 2}
+            ).addTo(map_09fb796540dd4bb93116c1e01dc8a829);
+        
+    
+            circle_2a742c6a39bbea16d4808ea6c2c57de1.bindTooltip(
+                `<div>
+                     What composer enters via the Casino Stage?
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            map_09fb796540dd4bb93116c1e01dc8a829.fitBounds(
+                [[51.51185, -0.134019], [51.515667, -0.130881]],
+                {"padding": [10, 10]}
+            );
+        
+</script>
+</html>
