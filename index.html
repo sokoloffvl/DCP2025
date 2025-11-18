@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Secret Riddle Maps — Fixed Zoom & Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    html, body { height: 100%; margin: 0; }
+    #map { height: 100vh; width: 100%; background: #f8f8f8; display:none; }
+    #msg {
+      display:flex; height:100vh; align-items:center; justify-content:center;
+      font-family: system-ui, sans-serif; color:#444; text-align:center; padding: 0 16px;
+    }
+    .legend {
+      position: absolute; z-index: 1000; bottom: 16px; left: 16px;
+      background: #fff; padding: 10px 12px; border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15); font: 14px/1.2 system-ui, sans-serif;
+      display:none;
+    }
+    .popup-content { font-size: 1rem; line-height: 1.4rem; padding: 4px; max-width: 260px; }
+    code.hash { background:#f1f3f5; padding:2px 6px; border-radius:6px; }
+  </style>
+</head>
+<body>
+  <div id="msg">
+    🎅 Ho-Ho-Ho 🎅
+  </div>
+  <div id="map"></div>
+  <div class="legend">
+    <strong>How it works</strong><br/>
+    Overlapping hint circles are merged. Click a merged area to see only the riddles within.
+  </div>
+
+  <!-- Leaflet & Turf -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
+  <script type="text/plain" id="easter-egg">
+/*
+         *
+        /#\
+       /###\
+      /#####\
+     /#######\
+    /#########\
+         ||
+         ||
+   🎄  Merry Christmas! 🎄
+
+Ho-ho-ho! A keen eye you have!
+Snooping for hints or answers, hmm?
+Take 5 bonus points instead — you’ve earned them!
+Drop the GitHub repository link for this page in your team channel
+and enjoy your reward for curiosity!
+*/
+</script>
+  <script>
+    function Prepare(base64) {
+        // atob() → bytes → UTF-8 → JSON.parse()
+        const bin = atob(base64);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        const json = new TextDecoder("utf-8").decode(bytes);
+        return JSON.parse(json);
+    }
+    const ROUTE_LIST_ONE = Prepare("IiMvSzlRNEI3WDFNM1Q4WjVQIg==");
+    const ROUTE_LIST_TWO = Prepare("IiMvUjJEN0w1QzlBMVY2TjNZIg==");
+    const ROUTE_LIST_THREE = Prepare("IiMvSzlRNEI3WDFNM1Q4WjVQIg==");
+    const ROUTE_LIST_FOUR = Prepare("IiMvSzlRNEI3WDFNM1Q4WjVQIg==");
+
+    const LIST_ONE = Prepare("W3siY29vcmRzIjpbNTEuNTE0NDQ2LC0wLjEzNDAxXSwicmlkZGxlIjoiVGhyb3VnaCBhIGhvbGUgeW914oCZbGwgZWFybiB5b3VyIGNoZWVyLCBidXQgd2hhdOKAmXMgdGhlIHRoaW5nIHlvdeKAmWQgaGFuZyB1cCBoZXJlPyIsInJhZGl1cyI6NTB9LHsiY29vcmRzIjpbNTEuNTE1OTMzLC0wLjEzNDA3NF0sInJpZGRsZSI6IlR3byBzdGFuZCBzdGlsbCB5ZXQgdHJhZGUgdGhlaXIgcGxhY2UsIHdoYXQgd29yZCBkZXNjcmliZXMgdGhpcyBtaXJyb3JlZCBncmFjZT8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxNDEzOCwtMC4xMzQyMDldLCJyaWRkbGUiOiJObyBwYWludCwgbm8gdGFnLCB5ZXQgYXJ04oCZcyBzdGlsbCBtYWRlLCB3aGF0IGFwcGxpYW5jZSBkaWQgdGhlIGNyZWF0dXJlIGludmFkZT8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxNDQ1MywtMC4xMzQxNjFdLCJyaWRkbGUiOiJHcm91bmQgQ29udHJvbCBvbmNlIGNhbGxlZCBmcm9tIGhlcmUsIHdoYXQgbmFtZSBvZiBzdHVkaW8gbGF1bmNoZWQgdGhhdCBjaGVlcj8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxNTg0NCwtMC4xMzA4OTVdLCJyaWRkbGUiOiJTdG9uZXdhcmUgZHJlYW1zIGFuZCBwb3JjZWxhaW4gZmxhaXIsIHdob3NlIGhhbmRzIHJlYnVpbHQgdGhlIGVhcnRoIHdpdGggY2FyZT8iLCJyYWRpdXMiOjUwfV0=");
+    const LIST_TWO = Prepare("W3siY29vcmRzIjpbNTEuNTE0MTI2LC0wLjEzMjg0N10sInJpZGRsZSI6IkV1cnl0aG1pY3MgZGluZSB3aXRoIGRvdWdoIGFuZCBlYXNlLCB3aGF0IHNuYWNrIGRlZmluZXMgdGhlaXIga2luZCBvZiBkcmVhbXM/IiwicmFkaXVzIjo1MH0seyJjb29yZHMiOls1MS41MTM5NDgsLTAuMTM0Mjg1XSwicmlkZGxlIjoiQW5jaG9ycyBkb3duLCB0aGUgbmlnaHQgaXMgdGhpY2ssIHdoYXQgcGFya2luZyBsb2NhdGlvbiBudW1iZXIgbW9vcnMgdGhlIGNhcHRhaW7igJlzIHNoaXA/IiwicmFkaXVzIjo1MH0seyJjb29yZHMiOls1MS41MTM0MjIsLTAuMTMzODkyXSwicmlkZGxlIjoiSXQgc3RvcmVzIHlvdXIgZmFjdHMgYW5kIGNvb2xzIHlvdXIgc2hha2UsIHdoYXQgZ2VuaXVzJyB2ZW5kb3Igc2hhcmVzIHRoaXMgbmFtZT8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxNDI3MiwtMC4xMzI2MTVdLCJyaWRkbGUiOiJXaGVyZSBzdG9yaWVzIGJsb29tIGFuZCB2b2ljZXMgc3RlZXIsIHR3byB3b3JkcyB0ZWxsIHlvdSB3aHkgeW914oCZcmUgaGVyZSIsInJhZGl1cyI6NTB9LHsiY29vcmRzIjpbNTEuNTE0MjI2LC0wLjEzMjkxM10sInJpZGRsZSI6IlNlZWsgdGhlIGJlYXJkIG9mIGNyaW1zb24gZmxhbWUsIGhpcyBuYW1lIGFuZCBiYXIgYXJlIG9uZSBhbmQgc2FtZSIsInJhZGl1cyI6NjV9XQ==");
+    const LIST_THREE = Prepare("W3siY29vcmRzIjpbNTEuNTEzNzU4LC0wLjEzMTU0MV0sInJpZGRsZSI6IllvdeKAmWQgdGhpbmsgdGhpcyBnYXJsaWMgZHJpbmsgd2FzIGJvcm4gcmlnaHQgaGVyZSwgYnV0IDc4MCBtaWxlcyBhd2F5IC0gd2hlcmUgZGlkIGl0IGZpcnN0IGFwcGVhcj8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxMjgzMiwtMC4xMzM3NjJdLCJyaWRkbGUiOiJCZW5lYXRoIHRoZSBmb3ggb2YgZmVhcmxlc3MgZmFtZSwgd2hhdCB0aXRsZSBjcm93bnMgaGlzIGxhc3RpbmcgbmFtZT8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxMzI3NSwtMC4xMzM4NTJdLCJyaWRkbGUiOiJCZXR3ZWVuIE1hbmhhdHRhbuKAmXMgZ2xhc3MgYW5kIENhbGnigJlzIHN1biwgd2hvJ3MgbmFtZSBzdGlsbCBiZWF0cyB0aGUgZHJ1bW1lcuKAmXMgZHJ1bT8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxMzQ3NCwtMC4xMzI1MzZdLCJyaWRkbGUiOiJOdW1iZXJzIGZhZGUgYnV0IGxldHRlcnMgc3RheSwgcmVhZCB0aGUgc3RvbmUgdGhhdCBzaG93cyB0aGUgd2F5IiwicmFkaXVzIjo1MH0seyJjb29yZHMiOls1MS41MTI4OTMsLTAuMTMzMzc1XSwicmlkZGxlIjoiQSBwaXhlbCBndWFyZCB3aXRoIHdhdGNoZnVsIGZlZXQsIHdobydzIHN0cmVldCBkb2VzIHRoaXMgaW52YWRlciBrZWVwPyIsInJhZGl1cyI6NTB9XQ==");
+    const LIST_FOUR = Prepare("W3siY29vcmRzIjpbNTEuNTExOTksLTAuMTMwNzY4XSwicmlkZGxlIjoiQmVuZWF0aCByZWQgbGFtcHMgYW5kIGRyYWdvbuKAmXMgc3RhcmUsIHdobydzIElyaXNoIGx1Y2sgaXMgZGVhbHQgd2l0aCBjYXJlPyIsInJhZGl1cyI6NTB9LHsiY29vcmRzIjpbNTEuNTEyMDExLC0wLjEzMDgwMV0sInJpZGRsZSI6IldobyByaXNlcyBmcm9tIGFzaGVzIGluIENoaW5hdG93biwgaGlzIHdvcmRzIG9mIG9yZGVyIHN0aWxsIHJlbm93bj8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxMzEzOSwtMC4xMzA5MTFdLCJyaWRkbGUiOiJCeSB0YXJ0cyBmcm9tIExpc2Jvbiwgd2FybSBhbmQgc3dlZXQsIHdoaWNoIHdpemFyZOKAmXMgZmFjZSB3aWxsIHlvdSBzb29uIG1lZXQ/IiwicmFkaXVzIjo1MH0seyJjb29yZHMiOls1MS41MTM2OSwtMC4xMzE3MDVdLCJyaWRkbGUiOiJXaGF0IGNvbXBvc2VyIGVudGVycyB2aWEgdGhlIHN0YWdlLCB3aGVyZSBsaWdodHMgYW5kIGx1Y2sgbm93IHNoYXJlIHRoZSBwYWdlPyIsInJhZGl1cyI6NTB9LHsiY29vcmRzIjpbNTEuNTEzNDU0LC0wLjEzMTQ3OV0sInJpZGRsZSI6IldoZXJlIG1vdmluZyBwaWN0dXJlcyBmaXJzdCBmb3VuZCB0aGVpciB3YXksIHdoYXQncyB0aGUgbG9uZ2VzdCB3b3JkIGZyb20gdGhhdCBmYXRlZnVsIGRheT8iLCJyYWRpdXMiOjUwfV0=");
+
+    let map, mergedGroup;
+    const legend = document.querySelector(".legend");
+    const msg = document.getElementById("msg");
+    const mapDiv = document.getElementById("map");
+
+    function initMapIfNeeded() {
+      if (map) return;
+      map = L.map('map', { zoomControl: true }).setView([51.5149, -0.1335], 16);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CartoDB',
+        maxZoom: 20
+      }).addTo(map);
+    }
+
+    function clearMap() {
+      if (mergedGroup) {
+        mergedGroup.remove();
+        mergedGroup = null;
+      }
+    }
+
+    function renderList(locations) {
+      clearMap();
+      mergedGroup = L.featureGroup().addTo(map);
+
+      const circlePolys = locations.map((loc, i) => {
+        const poly = turf.circle([loc.coords[1], loc.coords[0]], loc.radius / 1000, { steps: 64, units: "kilometers" });
+        poly.properties = { index: i };
+        return poly;
+      });
+
+      let unioned = circlePolys[0];
+      for (let i = 1; i < circlePolys.length; i++) unioned = turf.union(unioned, circlePolys[i]);
+      const flattened = turf.flatten(unioned);
+
+      const areaStyle = { color: "#1e88e5", weight: 2, fillColor: "#64b5f6", fillOpacity: 0.25 };
+      const areaHoverStyle = { color: "#1565c0", weight: 3, fillOpacity: 0.3 };
+
+      flattened.features.forEach(area => {
+        const riddles = [];
+        circlePolys.forEach((c, i) => { if (turf.booleanIntersects(area, c)) riddles.push(locations[i].riddle); });
+        if (riddles.length) {
+          const popupHtml = riddles.map((r, idx) =>
+            `<div class="popup-content"><strong>Riddle ${idx + 1}</strong><br/>${r}</div>`
+          ).join("<hr>");
+          const layer = L.geoJSON(area, { style: areaStyle }).addTo(mergedGroup);
+          layer.bindPopup(popupHtml);
+          layer.on("mouseover", () => layer.setStyle(areaHoverStyle));
+          layer.on("mouseout",  () => layer.setStyle(areaStyle));
+        }
+      });
+
+      // Delay fitBounds until visible to ensure correct layout + zoom
+      setTimeout(() => {
+        if (mergedGroup.getLayers().length) {
+          const bounds = mergedGroup.getBounds();
+          map.fitBounds(bounds, { padding: [30, 30], maxZoom: 17 }); // zoom limit ensures close view
+        } else {
+          map.setView([51.5149, -0.1335], 16);
+        }
+        map.invalidateSize();
+      }, 150);
+    }
+
+    function setVisible(isVisible) {
+      mapDiv.style.display = isVisible ? "block" : "none";
+      legend.style.display = isVisible ? "block" : "none";
+      msg.style.display = isVisible ? "none" : "flex";
+      if (isVisible && map) {
+        setTimeout(() => map.invalidateSize(), 150);
+      }
+    }
+
+    function route() {
+      initMapIfNeeded();
+      switch (window.location.hash) {
+        case ROUTE_LIST_ONE:
+          setVisible(true);
+          renderList(LIST_ONE);
+          break;
+        case ROUTE_LIST_TWO:
+          setVisible(true);
+          renderList(LIST_TWO);
+          break;
+        case ROUTE_LIST_THREE:
+          setVisible(true);
+          renderList(LIST_THREE);
+          break;
+        case ROUTE_LIST_FOUR:
+          setVisible(true);
+          renderList(LIST_FOUR);
+          break;
+        default:
+          setVisible(false);
+      }
+    }
+
+    window.addEventListener("hashchange", route);
+    window.addEventListener("load", route);
+  </script>
+</body>
+</html>
