@@ -113,10 +113,10 @@ and enjoy your reward for curiosity!
 
       flattened.features.forEach(area => {
         const riddles = [];
-        circlePolys.forEach((c, i) => { if (turf.booleanIntersects(area, c)) riddles.push(locations[i].riddle); });
+        circlePolys.forEach((c, i) => { if (turf.booleanIntersects(area, c)) riddles.push({riddle: locations[i].riddle, number: i + 1}); });
         if (riddles.length) {
           const popupHtml = riddles.map((r, idx) =>
-            `<div class="popup-content"><strong>Riddle ${idx + 1}</strong><br/>${r}</div>`
+            `<div class="popup-content"><strong>Riddle ${r.number}</strong><br/>${r.riddle}</div>`
           ).join("<hr>");
           const layer = L.geoJSON(area, { style: areaStyle }).addTo(mergedGroup);
           layer.bindPopup(popupHtml);
