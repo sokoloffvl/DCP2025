@@ -121,9 +121,9 @@ and enjoy your reward for curiosity!
       let unioned = circlePolys[0];
       for (let i = 1; i < circlePolys.length; i++) unioned = turf.union(unioned, circlePolys[i]);
       const flattened = turf.flatten(unioned);
-
-      const areaStyle = { color: "#1e88e5", weight: 2, fillColor: "#64b5f6", fillOpacity: 0.25 };
-      const areaHoverStyle = { color: "#1565c0", weight: 3, fillOpacity: 0.3 };
+      const colors = getColors();
+      const areaStyle = { color: colors.outline, weight: 2, fillColor: colors.fill, fillOpacity: 0.25 };
+      const areaHoverStyle = { color: colors.hover, weight: 3, fillOpacity: 0.3 };
 
       flattened.features.forEach(area => {
         const riddles = [];
@@ -189,6 +189,25 @@ and enjoy your reward for curiosity!
       msg.style.display = isVisible ? "none" : "flex";
       if (isVisible && map) {
         setTimeout(() => map.invalidateSize(), 150);
+      }
+    }
+
+    function getColors() {
+      switch (window.location.hash) {
+        case ROUTE_LIST_ONE:
+          return {outline: "#1e88e5", fill: "#64b5f6", hover: "#1565c0"};
+          break;
+        case ROUTE_LIST_TWO:
+          return {outline: "#ece207", fill: "#fef30c", hover: "#ded406"};
+          break;
+        case ROUTE_LIST_THREE:
+          return {outline: "#d13397", fill: "#f840b5", hover: "#c31684"};
+          break;
+        case ROUTE_LIST_FOUR:
+          return {outline: "#64cf55", fill: "#7df56d", hover: "#2ab317"};
+          break;
+        default:
+          return {outline: "#1e88e5", fill: "#64b5f6", hover: "#1565c0"};
       }
     }
 
