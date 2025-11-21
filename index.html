@@ -41,7 +41,8 @@
   <div id="map"></div>
   <div class="legend">
     <strong>How it works</strong><br/>
-    Click an area to see riddles inside it.
+    Click an area to see riddles inside it.<br/>
+    If your answer has more than one word, bundle them together, no spaces needed!
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
@@ -79,10 +80,11 @@ and enjoy your reward for curiosity!
     const ROUTE_LIST_THREE = Prepare("IiMvQTdLNEc5TTJYMVA4QjZRIg==");
     const ROUTE_LIST_FOUR =  Prepare("IiMvWjNMOEMxTjdSNEQ1VDlXIg==");
 
-    const LIST_ONE = Prepare("W3siY29vcmRzIjpbNTEuNTE1NDg5NjMwOTY3NTIsLTAuMTM0ODQyODg4MjA3MjMzNTNdLCJyaWRkbGUiOiJUaHJvdWdoIGEgaG9sZSB5b3XigJlsbCBlYXJuIHlvdXIgY2hlZXIsIGJ1dCB3aGF04oCZcyB0aGUgdGhpbmcgeW914oCZZCBoYW5nIHVwIGhlcmU/IiwicmFkaXVzIjo1MH0seyJjb29yZHMiOls1MS41MTU1ODg2MTUzODc1OCwtMC4xMzQwNDkxNzMxNzczMjU5M10sInJpZGRsZSI6IlR3byBzdGFuZCBzdGlsbCB5ZXQgdHJhZGUgdGhlaXIgcGxhY2UsIHdoYXQgd29yZCBkZXNjcmliZXMgdGhpcyBtaXJyb3JlZCBncmFjZT8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxNDQ1MTg5Mzg2OTYzLC0wLjEzNDc1NjYwMjAxODU0ODQyXSwicmlkZGxlIjoiTm8gcGFpbnQsIG5vIHRhZywgeWV0IGFydOKAmXMgc3RpbGwgbWFkZSwgd2hhdCBhcHBsaWFuY2UgZGlkIHRoZSBjcmVhdHVyZSBpbnZhZGU/IiwicmFkaXVzIjo1MH0seyJjb29yZHMiOls1MS41MTQzNDk3NjMzNjE3OSwtMC4xMzM1NzYzNTYwNzg4MTk4N10sInJpZGRsZSI6Ikdyb3VuZCBDb250cm9sIG9uY2UgY2FsbGVkIGZyb20gaGVyZSwgd2hhdCBuYW1lIG9mIHN0dWRpbyBsYXVuY2hlZCB0aGF0IGNoZWVyPyIsInJhZGl1cyI6NTB9LHsiY29vcmRzIjpbNTEuNTE1ODA3MjQ2NDc2NTQsLTAuMTMxMDA5MTQ2MjQ3OTMyNDVdLCJyaWRkbGUiOiJTdG9uZXdhcmUgZHJlYW1zIGFuZCBwb3JjZWxhaW4gZmxhaXIsIHdob3NlIGhhbmRzIHJlYnVpbHQgdGhlIGVhcnRoIHdpdGggY2FyZT8iLCJyYWRpdXMiOjUwfV0=");
-    const LIST_TWO = Prepare("W3siY29vcmRzIjpbNTEuNTE0MTU5Nzc0MDk5OTcsLTAuMTMyMzQxNzUxMTIxNTI1OTZdLCJyaWRkbGUiOiJFdXJ5dGhtaWNzIGRpbmUgd2l0aCBkb3VnaCBhbmQgZWFzZSwgd2hhdCBzbmFjayBkZWZpbmVzIHRoZWlyIGtpbmQgb2YgZHJlYW1zPyIsInJhZGl1cyI6NTB9LHsiY29vcmRzIjpbNTEuNTEzOTEzNTI1MjUwODcsLTAuMTM0NzIxOTc2MTcwNTY3MTRdLCJyaWRkbGUiOiJBbmNob3JzIGRvd24sIHRoZSBuaWdodCBpcyB0aGljaywgd2hhdCBwYXJraW5nIGxvY2F0aW9uIG51bWJlciBtb29ycyB0aGUgY2FwdGFpbuKAmXMgc2hpcD8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxMzU1NjUyOTc3NjY5LC0wLjEzNDQ3NjI2NzU2MzU4MzNdLCJyaWRkbGUiOiJJdCBzdG9yZXMgeW91ciBmYWN0cyBhbmQgY29vbHMgeW91ciBzaGFrZSwgd2hhdCBnZW5pdXMnIHZlbmRvciBzaGFyZXMgdGhpcyBuYW1lPyIsInJhZGl1cyI6NTB9LHsiY29vcmRzIjpbNTEuNTE0NTE2OTcwMzUsLTAuMTMzMDY5NzEwNjc2ODUwNjddLCJyaWRkbGUiOiJXaGVyZSBzdG9yaWVzIGJsb29tIGFuZCB2b2ljZXMgc3RlZXIsIHR3byB3b3JkcyB0ZWxsIHlvdSB3aHkgeW914oCZcmUgaGVyZSIsInJhZGl1cyI6NTB9LHsiY29vcmRzIjpbNTEuNTEzODY1ODg0NTA3ODE1LC0wLjEzMzAwNTkxNjY0MjM0NDJdLCJyaWRkbGUiOiJTZWVrIHRoZSBiZWFyZCBvZiBjcmltc29uIGZsYW1lLCBoaXMgbmFtZSBhbmQgYmFyIGFyZSBvbmUgYW5kIHNhbWUiLCJyYWRpdXMiOjUwfV0=");
-    const LIST_THREE = Prepare("W3siY29vcmRzIjpbNTEuNTEzODczODMyNTExMDI0LC0wLjEzMTg5MTEzMDM5MTY3NV0sInJpZGRsZSI6IllvdeKAmWQgdGhpbmsgdGhpcyBnYXJsaWMgZHJpbmsgd2FzIGJvcm4gcmlnaHQgaGVyZSwgYnV0IDc4MCBtaWxlcyBhd2F5IC0gd2hlcmUgZGlkIGl0IGZpcnN0IGFwcGVhcj8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxMjkzMTA2NTExNTAyNiwtMC4xMzM0ODEyOTcwNjM3NDcwM10sInJpZGRsZSI6IkJlbmVhdGggdGhlIGZveCBvZiBmZWFybGVzcyBmYW1lLCB3aGF0IHRpdGxlIGNyb3ducyBoaXMgbGFzdGluZyBuYW1lPyIsInJhZGl1cyI6NTB9LHsiY29vcmRzIjpbNTEuNTEzMjc0OTI3MzY5Njg2LC0wLjEzNDAyMzEwMzIzMDU1MDQyXSwicmlkZGxlIjoiQmV0d2VlbiBNYW5oYXR0YW7igJlzIGdsYXNzIGFuZCBDYWxp4oCZcyBzdW4sIHdobydzIG5hbWUgc3RpbGwgYmVhdHMgdGhlIGRydW1tZXLigJlzIGRydW0/IiwicmFkaXVzIjo1MH0seyJjb29yZHMiOls1MS41MTM2MzA0NzE1MzQ1OSwtMC4xMzIzODY5NTU4OTUxNTQwNl0sInJpZGRsZSI6Ik51bWJlcnMgZmFkZSBidXQgbGV0dGVycyBzdGF5LCByZWFkIHRoZSBzdG9uZSB0aGF0IHNob3dzIHRoZSB3YXkiLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxMjk1MTYwNDIzNjk4LC0wLjEzNDEzOTE2NDE3MTcyNTE0XSwicmlkZGxlIjoiQSBwaXhlbCBndWFyZCB3aXRoIHdhdGNoZnVsIGZlZXQsIHdobydzIHN0cmVldCBkb2VzIHRoaXMgaW52YWRlciBrZWVwPyIsInJhZGl1cyI6NTB9XQ==");
-    const LIST_FOUR = Prepare("W3siY29vcmRzIjpbNTEuNTExOTcxNTU4MzkyNzIsLTAuMTMwODM3Njk4ODUwNTUwMV0sInJpZGRsZSI6IkJlbmVhdGggcmVkIGxhbXBzIGFuZCBkcmFnb27igJlzIHN0YXJlLCB3aG8ncyBJcmlzaCBsdWNrIGlzIGRlYWx0IHdpdGggY2FyZT8iLCJyYWRpdXMiOjUwfSx7ImNvb3JkcyI6WzUxLjUxMTczMjkzMDgxNTExLC0wLjEzMTIxMjEwNTE2NDA1OTY4XSwicmlkZGxlIjoiV2hvIHJpc2VzIGZyb20gYXNoZXMgaW4gQ2hpbmF0b3duLCBoaXMgd29yZHMgb2Ygb3JkZXIgc3RpbGwgcmVub3duPyIsInJhZGl1cyI6NTB9LHsiY29vcmRzIjpbNTEuNTEzMjM4MDQ0ODI5MjY1LC0wLjEzMDk1NjgzMjYxOTc3NTM0XSwicmlkZGxlIjoiQnkgdGFydHMgZnJvbSBMaXNib24sIHdhcm0gYW5kIHN3ZWV0LCB3aGljaCB3aXphcmTigJlzIGZhY2Ugd2lsbCB5b3Ugc29vbiBtZWV0PyIsInJhZGl1cyI6NTB9LHsiY29vcmRzIjpbNTEuNTEzNzE3MjUzNTkwOTgsLTAuMTMwODAxMzEwNzY0MzI5M10sInJpZGRsZSI6IldoYXQgY29tcG9zZXIgZW50ZXJzIHZpYSB0aGUgc3RhZ2UsIHdoZXJlIGxpZ2h0cyBhbmQgbHVjayBub3cgc2hhcmUgdGhlIHBhZ2U/IiwicmFkaXVzIjo1MH0seyJjb29yZHMiOls1MS41MTM0OTI5OTM5NjA1OCwtMC4xMzE5ODEwMDA5MzYxMjcyN10sInJpZGRsZSI6IldoZXJlIG1vdmluZyBwaWN0dXJlcyBmaXJzdCBmb3VuZCB0aGVpciB3YXksIHdoYXQncyB0aGUgbG9uZ2VzdCB3b3JkIGZyb20gdGhhdCBmYXRlZnVsIGRheT8iLCJyYWRpdXMiOjUwfV0=");
+    const LIST_ONE = Prepare("W3siY29vcmRzIjpbNTEuNTE1NDg5NjMwOTY3NTIsLTAuMTM0ODQyODg4MjA3MjMzNTNdLCJyaWRkbGUiOiJUaHJvdWdoIGEgaG9sZSB5b3XigJlsbCBlYXJuIHlvdXIgY2hlZXIsIGJ1dCB3aGF04oCZcyB0aGUgdGhpbmcgeW914oCZZCBoYW5nIHVwIGhlcmU/IiwicmFkaXVzIjo1MCwibGVuZ3RoIjozfSx7ImNvb3JkcyI6WzUxLjUxNTU4ODYxNTM4NzU4LC0wLjEzNDA0OTE3MzE3NzMyNTkzXSwicmlkZGxlIjoiVHdvIHN0YW5kIHN0aWxsIHlldCB0cmFkZSB0aGVpciBwbGFjZSwgd2hhdCB3b3JkIGRlc2NyaWJlcyB0aGlzIG1pcnJvcmVkIGdyYWNlPyIsInJhZGl1cyI6NTAsImxlbmd0aCI6MTB9LHsiY29vcmRzIjpbNTEuNTE0NDUxODkzODY5NjMsLTAuMTM0NzU2NjAyMDE4NTQ4NDJdLCJyaWRkbGUiOiJObyBwYWludCwgbm8gdGFnLCB5ZXQgYXJ04oCZcyBzdGlsbCBtYWRlLCB3aGF0IGFwcGxpYW5jZSBkaWQgdGhlIGNyZWF0dXJlIGludmFkZT8iLCJyYWRpdXMiOjUwLCJsZW5ndGgiOjEwfSx7ImNvb3JkcyI6WzUxLjUxNDM0OTc2MzM2MTc5LC0wLjEzMzU3NjM1NjA3ODgxOTg3XSwicmlkZGxlIjoiR3JvdW5kIENvbnRyb2wgb25jZSBjYWxsZWQgZnJvbSBoZXJlLCB3aGF0IG5hbWUgb2Ygc3R1ZGlvIGxhdW5jaGVkIHRoYXQgY2hlZXI/IiwicmFkaXVzIjo1MCwibGVuZ3RoIjo3fSx7ImNvb3JkcyI6WzUxLjUxNTgwNzI0NjQ3NjU0LC0wLjEzMTAwOTE0NjI0NzkzMjQ1XSwicmlkZGxlIjoiU3RvbmV3YXJlIGRyZWFtcyBhbmQgcG9yY2VsYWluIGZsYWlyLCB3aG9zZSBoYW5kcyByZWJ1aWx0IHRoZSBlYXJ0aCB3aXRoIGNhcmU/IiwicmFkaXVzIjo1MCwibGVuZ3RoIjoxMX1d");
+    const LIST_TWO = Prepare("W3siY29vcmRzIjpbNTEuNTE0MTU5Nzc0MDk5OTcsLTAuMTMyMzQxNzUxMTIxNTI1OTZdLCJyaWRkbGUiOiJFdXJ5dGhtaWNzIGRpbmUgd2l0aCBkb3VnaCBhbmQgZWFzZSwgd2hhdCBzbmFjayBkZWZpbmVzIHRoZWlyIGtpbmQgb2YgZHJlYW1zPyIsInJhZGl1cyI6NTAsImxlbmd0aCI6Nn0seyJjb29yZHMiOls1MS41MTM5MTM1MjUyNTA4NywtMC4xMzQ3MjE5NzYxNzA1NjcxNF0sInJpZGRsZSI6IkFuY2hvcnMgZG93biwgdGhlIG5pZ2h0IGlzIHRoaWNrLCB3aGF0IHBhcmtpbmcgbG9jYXRpb24gbnVtYmVyIG1vb3JzIHRoZSBjYXB0YWlu4oCZcyBzaGlwPyIsInJhZGl1cyI6NTAsImxlbmd0aCI6NH0seyJjb29yZHMiOls1MS41MTM1NTY1Mjk3NzY2OSwtMC4xMzQ0NzYyNjc1NjM1ODMzXSwicmlkZGxlIjoiSXQgc3RvcmVzIHlvdXIgZmFjdHMgYW5kIGNvb2xzIHlvdXIgc2hha2UsIHdoYXQgZ2VuaXVzJyB2ZW5kb3Igc2hhcmVzIHRoaXMgbmFtZT8iLCJyYWRpdXMiOjUwLCJsZW5ndGgiOjl9LHsiY29vcmRzIjpbNTEuNTE0NTE2OTcwMzUsLTAuMTMzMDY5NzEwNjc2ODUwNjddLCJyaWRkbGUiOiJXaGVyZSBzdG9yaWVzIGJsb29tIGFuZCB2b2ljZXMgc3RlZXIsIHR3byB3b3JkcyB0ZWxsIHlvdSB3aHkgeW914oCZcmUgaGVyZSIsInJhZGl1cyI6NTAsImxlbmd0aCI6MTF9LHsiY29vcmRzIjpbNTEuNTEzODY1ODg0NTA3ODE1LC0wLjEzMzAwNTkxNjY0MjM0NDJdLCJyaWRkbGUiOiJTZWVrIHRoZSBiZWFyZCBvZiBjcmltc29uIGZsYW1lLCBoaXMgbmFtZSBhbmQgYmFyIGFyZSBvbmUgYW5kIHNhbWUiLCJyYWRpdXMiOjUwLCJsZW5ndGgiOjEwfV0=");
+    const LIST_THREE = Prepare("W3siY29vcmRzIjpbNTEuNTEzODczODMyNTExMDI0LC0wLjEzMTg5MTEzMDM5MTY3NV0sInJpZGRsZSI6IllvdeKAmWQgdGhpbmsgdGhpcyBnYXJsaWMgZHJpbmsgd2FzIGJvcm4gcmlnaHQgaGVyZSwgYnV0IDc4MCBtaWxlcyBhd2F5IC0gd2hlcmUgZGlkIGl0IGZpcnN0IGFwcGVhcj8iLCJyYWRpdXMiOjUwLCJsZW5ndGgiOjl9LHsiY29vcmRzIjpbNTEuNTEyOTMxMDY1MTE1MDI2LC0wLjEzMzQ4MTI5NzA2Mzc0NzAzXSwicmlkZGxlIjoiQmVuZWF0aCB0aGUgZm94IG9mIGZlYXJsZXNzIGZhbWUsIHdoYXQgdGl0bGUgY3Jvd25zIGhpcyBsYXN0aW5nIG5hbWU/IiwicmFkaXVzIjo1MCwibGVuZ3RoIjo4fSx7ImNvb3JkcyI6WzUxLjUxMzI3NDkyNzM2OTY4NiwtMC4xMzQwMjMxMDMyMzA1NTA0Ml0sInJpZGRsZSI6IkJldHdlZW4gTWFuaGF0dGFu4oCZcyBnbGFzcyBhbmQgQ2FsaeKAmXMgc3VuLCB3aG8ncyBuYW1lIHN0aWxsIGJlYXRzIHRoZSBkcnVtbWVy4oCZcyBkcnVtPyIsInJhZGl1cyI6NTAsImxlbmd0aCI6OX0seyJjb29yZHMiOls1MS41MTM2MzA0NzE1MzQ1OSwtMC4xMzIzODY5NTU4OTUxNTQwNl0sInJpZGRsZSI6Ik51bWJlcnMgZmFkZSBidXQgbGV0dGVycyBzdGF5LCByZWFkIHRoZSBzdG9uZSB0aGF0IHNob3dzIHRoZSB3YXkiLCJyYWRpdXMiOjUwLCJsZW5ndGgiOjZ9LHsiY29vcmRzIjpbNTEuNTEyOTUxNjA0MjM2OTgsLTAuMTM0MTM5MTY0MTcxNzI1MTRdLCJyaWRkbGUiOiJBIHBpeGVsIGd1YXJkIHdpdGggd2F0Y2hmdWwgZmVldCwgd2hvJ3Mgc3RyZWV0IGRvZXMgdGhpcyBpbnZhZGVyIGtlZXA/IiwicmFkaXVzIjo1MCwibGVuZ3RoIjo1fV0=");
+    const LIST_FOUR = Prepare("W3siY29vcmRzIjpbNTEuNTExOTcxNTU4MzkyNzIsLTAuMTMwODM3Njk4ODUwNTUwMV0sInJpZGRsZSI6IkJlbmVhdGggcmVkIGxhbXBzIGFuZCBkcmFnb27igJlzIHN0YXJlLCB3aG8ncyBJcmlzaCBsdWNrIGlzIGRlYWx0IHdpdGggY2FyZT8iLCJyYWRpdXMiOjUwLCJsZW5ndGgiOjEwfSx7ImNvb3JkcyI6WzUxLjUxMTczMjkzMDgxNTExLC0wLjEzMTIxMjEwNTE2NDA1OTY4XSwicmlkZGxlIjoiV2hvIHJpc2VzIGZyb20gYXNoZXMgaW4gQ2hpbmF0b3duLCBoaXMgd29yZHMgb2Ygb3JkZXIgc3RpbGwgcmVub3duPyIsInJhZGl1cyI6NTAsImxlbmd0aCI6MTF9LHsiY29vcmRzIjpbNTEuNTEzMjM4MDQ0ODI5MjY1LC0wLjEzMDk1NjgzMjYxOTc3NTM0XSwicmlkZGxlIjoiQnkgdGFydHMgZnJvbSBMaXNib24sIHdhcm0gYW5kIHN3ZWV0LCB3aGljaCB3aXphcmTigJlzIGZhY2Ugd2lsbCB5b3Ugc29vbiBtZWV0PyIsInJhZGl1cyI6NTAsImxlbmd0aCI6N30seyJjb29yZHMiOls1MS41MTM3MTcyNTM1OTA5OCwtMC4xMzA4MDEzMTA3NjQzMjkzXSwicmlkZGxlIjoiV2hhdCBjb21wb3NlciBlbnRlcnMgdmlhIHRoZSBzdGFnZSwgd2hlcmUgbGlnaHRzIGFuZCBsdWNrIG5vdyBzaGFyZSB0aGUgcGFnZT8iLCJyYWRpdXMiOjUwLCJsZW5ndGgiOjZ9LHsiY29vcmRzIjpbNTEuNTEzNDkyOTkzOTYwNTgsLTAuMTMxOTgxMDAwOTM2MTI3MjddLCJyaWRkbGUiOiJXaGVyZSBtb3ZpbmcgcGljdHVyZXMgZmlyc3QgZm91bmQgdGhlaXIgd2F5LCB3aGF0J3MgdGhlIGxvbmdlc3Qgd29yZCBmcm9tIHRoYXQgZmF0ZWZ1bCBkYXk/IiwicmFkaXVzIjo1MCwibGVuZ3RoIjoxM31d");
+
     let map, mergedGroup;
     const legend = document.querySelector(".legend");
     const msg = document.getElementById("msg");
@@ -125,26 +127,39 @@ and enjoy your reward for curiosity!
 
       flattened.features.forEach(area => {
         const riddles = [];
-        circlePolys.forEach((c, i) => { if (turf.booleanIntersects(area, c)) riddles.push({riddle: locations[i].riddle, number: i + 1}); });
+        circlePolys.forEach((c, i) => {
+          if (turf.booleanIntersects(area, c)) riddles.push({ riddle: locations[i].riddle, number: i + 1, length: locations[i].length });
+        });
+
         if (riddles.length) {
           // Area polygon + popup
           const popupHtml = riddles
-            .map(r => `<div class="popup-content"><strong>Riddle ${r.number}</strong><br/>${r.riddle}</div>`)
+            .map(r => `
+              <div class="popup-content">
+                <strong>Riddle ${r.number}</strong><br/>
+                ${r.riddle}<br/>
+                <em>(${r.length} letters)</em>
+              </div>
+            `)
             .join("<hr>");
+
           const layer = L.geoJSON(area, { style: areaStyle }).addTo(mergedGroup);
           layer.bindPopup(popupHtml);
           layer.on("mouseover", () => layer.setStyle(areaHoverStyle));
           layer.on("mouseout",  () => layer.setStyle(areaStyle));
 
           // --- Single label per merged area (comma-separated numbers) ---
-          const labelText = riddles.map(r => r.number).sort((a,b) => a - b).join(", ");
+          const labelText = riddles
+            .map(r => r.number)
+            .sort((a, b) => a - b)
+            .join(", ");
+
           const centroid = turf.centerOfMass(area).geometry.coordinates; // [lng, lat]
           const latlng = [centroid[1], centroid[0]];
 
           const areaIcon = L.divIcon({
             className: "riddle-label",
             html: labelText
-            // No fixed iconSize so the pill can expand for longer lists
           });
 
           L.marker(latlng, {
